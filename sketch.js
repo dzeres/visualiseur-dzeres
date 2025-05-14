@@ -12,8 +12,10 @@ function setup() {
   angleMode(DEGREES);
   fft = new p5.FFT();
 
+  // bouton pour démarrer (nécessaire sur le web)
   let playButton = createButton("▶️ Lancer le visualiseur");
-  playButton.position(width / 2 - 80, height / 2);
+  playButton.position(width / 2 - 100, height / 2);
+  playButton.style('font-size', '20px');
   playButton.mousePressed(() => {
     song.play();
     started = true;
@@ -24,20 +26,20 @@ function setup() {
 function draw() {
   if (!started) return;
 
-  background(0, 20);
+  background(0, 20); // fond sombre avec traînée
   translate(width / 2, height / 2);
 
   let spectrum = fft.analyze();
   let bass = fft.getEnergy("bass");
 
-  // Cercle central pulsant
+  // cercle pulsant au centre
   noFill();
   stroke(255, 100);
   strokeWeight(2);
   let r = map(bass, 0, 255, 100, 250);
   ellipse(0, 0, r, r);
 
-  // Forme ondulée
+  // onde circulaire
   beginShape();
   noFill();
   stroke(100, 200, 255);
@@ -52,7 +54,7 @@ function draw() {
   }
   endShape(CLOSE);
 
-  // Particules
+  // particules
   for (let i = particles.length - 1; i >= 0; i--) {
     particles[i].update();
     particles[i].show();
@@ -67,7 +69,7 @@ function draw() {
     }
   }
 
-  // Titre
+  // titre au centre
   noStroke();
   fill(255, 200);
   textAlign(CENTER, CENTER);
